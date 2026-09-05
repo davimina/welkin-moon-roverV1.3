@@ -1,0 +1,18 @@
+## 📦 Lista de Peças Necessárias
+
+### Processamento & Rede
+- 1x Raspberry Pi 3 Model B (com Cartão MicroSD de 16GB+)
+- 1x Módulo Câmera CSI (Pi Camera) ou Webcam USB
+- 1x Adaptador Wi-Fi USB de Alto Ganho com Antena SMA (ex: TP-Link Archer T3U Plus ou similar com chip Ralink/Realtek)
+
+### Tração & Estrutura
+- 1x Kit Chassi Robótico 2WD (ou 4WD) com Motores DC 3-6V
+- 1x Driver de Motor / Ponte H (**L298N** ou **TB6612FNG**)
+
+### Alimentação & Elétrica
+- 2x Baterias Li-ion 18650 (3.7V) com Suporte em série (Total ~7.4V)
+- 1x Módulo Step-Down Buck Converter (**LM2596**)
+- 1x Chave Liga/Desliga (Gangorra)
+- Jumpers Macho-Fêmea e Fêmea-Fêmea
+- 1x Cabo USB com conector Micro-USB (para alimentação do Pi)
+______________________________________________________________________________________
