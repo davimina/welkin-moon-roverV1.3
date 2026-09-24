@@ -4,9 +4,9 @@
 [![Platform](https://img.shields.io/badge/hardware-Raspberry%20Pi-red.svg)](https://www.raspberrypi.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **Simulando a exploração planetária remota e a latência de comunicação entre a Terra e Marte.**
+> **Simulando a exploração planetária remota e a latência de comunicação entre a Terra e lua.**
 
-O **Welkin Moon Rover** é um projeto de robótica e visão computacional desenvolvido sobre a plataforma **Raspberry Pi**. O objetivo principal é simular o controle e a telemetria de um rover espacial operando na superfície lunar ou martiana, incorporando atrasos de sinal programados (*signal delay*) para replicar o desafio real enfrentado por engenheiros e operadores da NASA e ESA no comando de robôs extraterrestres.
+O **Welkin Moon Rover** é um projeto de robótica e visão computacional desenvolvido sobre a plataforma **Raspberry Pi**. O objetivo principal é simular o controle e a telemetria de um rover espacial operando na superfície lunar, incorporando atrasos de sinal programados (*signal delay*) para replicar o desafio real enfrentado por engenheiros e operadores da NASA e ESA no comando de robôs extraterrestres.
 
 ---
 
