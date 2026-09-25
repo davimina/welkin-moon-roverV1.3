@@ -12,7 +12,7 @@ O **Welkin Moon Rover** é um projeto de robótica e visão computacional desenv
 
 ## 🌟 Destaques do Projeto
 
-- **🕹️ Teleoperação com Latência Configurável:** Simulação do atraso de transmissão de dados proporcional à distância Terra-Marte (de 3 a 22 minutos em escala real ou ajustável para testes).
+- **🕹️ Teleoperação com Latência Configurável:** Simulação do atraso de transmissão de dados proporcional à distância Terra-lua (em escala real ou ajustável para testes).
 - **👁️ Visão Computacional Embarcada:** Transmissão de vídeo via câmera acoplada ao Raspberry Pi com análise de terreno em tempo real.
 - **🧱 Suporte a Processamento Leve:** Estruturado em Python com OpenCV/TFLite para execução otimizada em hardware embarcado.
 - **📊 Telemetria Interativa:** Envio de dados operacionais, status dos sensores e feed visual para uma estação de controle remota.
