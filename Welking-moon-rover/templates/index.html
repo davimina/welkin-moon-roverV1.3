@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welkin Moon Rover - Estação Terra</title>
+    <style>
+        body {
+            background-color: #0b0c10;
+            color: #66fcf1;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            border: 2px solid #45a29e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(69, 162, 158, 0.5);
+        }
+        .painel-delay {
+            background-color: #1f2833;
+            border: 1px solid #45a29e;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        .painel-delay label {
+            font-weight: bold;
+        }
+        .painel-delay input[type="range"] {
+            width: 200px;
+            cursor: pointer;
+        }
+        .painel-delay input[type="number"] {
+            width: 60px;
+            background: #0b0c10;
+            color: #66fcf1;
+            border: 1px solid #45a29e;
+            border-radius: 4px;
+            padding: 5px;
+            text-align: center;
+            font-family: inherit;
+        }
+        .btn-aplicar {
+            width: auto;
+            height: auto;
+            padding: 6px 15px;
+            font-size: 14px;
+            background-color: #45a29e;
+            color: #0b0c10;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-aplicar:hover {
+            background-color: #66fcf1;
+        }
+        .tela-camera {
+            width: 100%;
+            max-width: 640px;
+            height: 480px;
+            background-color: #1f2833;
+            border: 2px solid #c5c6c7;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+        .painel-controle {
+            display: grid;
+            grid-template-columns: repeat(3, 80px);
+            grid-gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .btn-direcao {
+            width: 80px;
+            height: 80px;
+            background-color: #1f2833;
+            color: #c5c6c7;
+            border: 2px solid #45a29e;
+            border-radius: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-direcao:active {
+            background-color: #45a29e;
+            color: #0b0c10;
+        }
+        .btn-parar {
+            background-color: #7a1f1f;
+            border-color: #ff4d4d;
+            color: white;
+        }
+        .btn-parar:active {
+            background-color: #ff4d4d;
+        }
+        #status {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #c5c6c7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>📡 Estação de Controle Terra</h2>
+        
+        <!-- Configuração dinâmica de atraso de rede -->
+        <div class="painel-delay">
+            <label for="slider-delay">Latência (s):</label>
+            <input type="range" id="slider-delay" min="0" max="10" step="0.5" value="2.5" oninput="sincronizarInputs(this.value)">
+            <input type="number" id="num-delay" min="0" max="10" step="0.5" value="2.5" oninput="sincronizarInputs(this.value)">
+            <button class="btn-aplicar" onclick="atualizarDelay()">Aplicar Atraso</button>
+        </div>
+
+        <img src="/video" alt="Feed da Câmera Perdido" class="tela-camera">
+
+        <p>Painel de Navegação</p>
+        
+        <div class="painel-controle">
+            <div></div>
+            <button class="btn-direcao" onclick="enviarComando('frente')" title="Frente">⬆️</button>
+            <div></div>
+            
+            <button class="btn-direcao" onclick="enviarComando('esquerda')" title="Esquerda">⬅️</button>
+            <button class="btn-direcao btn-parar" onclick="enviarComando('parar')" title="Parada de Emergência">🛑</button>
+            <button class="btn-direcao" onclick="enviarComando('direita')" title="Direita">➡️</button>
+            
+            <div></div>
+            <button class="btn-direcao" onclick="enviarComando('tras')" title="Ré">⬇️</button>
+            <div></div>
+        </div>
+
+        <div id="status">Status do Sinal: Conectado e aguardando comandos...</div>
+    </div>
+
+    <script>
+        function sincronizarInputs(valor) {
+            document.getElementById('slider-delay').value = valor;
+            document.getElementById('num-delay').value = valor;
+        }
+
+        function atualizarDelay() {
+            const novoDelay = parseFloat(document.getElementById('num-delay').value);
+            const painelStatus = document.getElementById('status');
+
+            fetch('/configurar_delay', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ delay: novoDelay })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "sucesso") {
+                    painelStatus.innerText = `Status: Latência ajustada com sucesso para ${data.novo_delay}s.`;
+                    painelStatus.style.color = '#66fcf1';
+                } else {
+                    painelStatus.innerText = `Erro: ${data.mensagem}`;
+                    painelStatus.style.color = '#ff4d4d';
+                }
+            })
+            .catch(error => {
+                painelStatus.innerText = 'Status: ERRO ao atualizar configuração de latência!';
+                painelStatus.style.color = '#ff4d4d';
+                console.error('Erro:', error);
+            });
+        }
+
+        function enviarComando(direcao) {
+            const painelStatus = document.getElementById('status');
+            painelStatus.innerText = `Status: Enviando comando [${direcao.toUpperCase()}]...`;
+            painelStatus.style.color = '#e3b505';
+
+            fetch('/comando', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ direcao: direcao })
+            })
+            .then(response => response.json())
+            .then(data => {
+                painelStatus.innerText = `Status: Comando [${data.comando_executado.toUpperCase()}] executado com ${data.delay_aplicado}s de atraso.`;
+                painelStatus.style.color = '#66fcf1';
+            })
+            .catch((error) => {
+                painelStatus.innerText = 'Status: ERRO DE COMUNICAÇÃO COM O ROVER!';
+                painelStatus.style.color = '#ff4d4d';
+                console.error('Erro:', error);
+            });
+        }
+    </script>
+</body>
+</html>
